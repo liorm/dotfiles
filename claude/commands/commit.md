@@ -1,0 +1,14 @@
+# Commit Command
+
+Commit the current code changes with a meaningful commit message.
+
+## Instructions
+
+1. **Review Changes**: First, show me what files have been modified using `git status` and `git diff`
+2. **Generate Message**: Create a clear, concise commit message that describes the changes
+3. **Stage and Commit**: Stage all changes and commit them with the generated message. If there are issues (due to precommit hooks, such as lint, format, etc...), fix them. **Make sure everything is staged** before commit !!!
+1. **Confirmation**: Show the commit hash and summary
+
+Please follow conventional commit format when possible (feat:, fix:, docs:, etc.)
+
+**NEVER** include "🤖 Generated with Claude Code", "Co-Authored-By: Claude" clause or similar AI attribution lines in commit messages.
