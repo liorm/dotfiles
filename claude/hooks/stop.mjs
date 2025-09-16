@@ -5,19 +5,19 @@ import { exec } from 'child_process';
 
 // list of phrases to notify the user about work done.
 const phrases = [
-    "Work completed successfully.",
-    "The task has been finished.",
-    "All operations are done.",
-    "Your work has been successfully executed.",
-    "The process has been completed.",
-    "Everything is done as expected.",
-    "The task has been accomplished.",
+    "העבודה הושלמה בהצלחה.",
+    "המשימה הסתיימה.",
+    "כל הפעולות הושלמו.",
+    "העבודה שלך בוצעה בהצלחה.",
+    "התהליך הושלם.",
+    "הכל בוצע כמצופה.",
+    "המשימה הושגה.",
 ];
 const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
 
 async function notifyInputNeeded() {
     return new Promise((resolve, reject) => {
-        exec(`/usr/bin/say "${randomPhrase}"`, (error, stdout, stderr) => {
+        exec(`/usr/bin/say -v "Carmit" "${randomPhrase}"`, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing say command: ${error.message}`);
                 reject(error);
@@ -33,5 +33,4 @@ async function notifyInputNeeded() {
     });
 }
 
-notifyInputNeeded().then((code) => { process.exit(code); });
-
+// notifyInputNeeded().then((code) => { process.exit(code); });
