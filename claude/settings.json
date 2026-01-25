@@ -1,31 +1,7 @@
 {
   "includeCoAuthoredBy": false,
-  "model": "sonnet",
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/notification.mjs"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/stop.mjs"
-          }
-        ]
-      }
-    ]
+  "enabledPlugins": {
+    "playwright-skill@playwright-skill": true
   },
-  "feedbackSurveyState": {
-    "lastShownTime": 1754224124509
-  }
+  "alwaysThinkingEnabled": true
 }
