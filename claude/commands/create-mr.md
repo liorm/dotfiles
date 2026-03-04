@@ -1,11 +1,14 @@
 Create a merge request for the current branch using the GitLab CLI. Follow these steps:
 
-1. Check the current git status and branch to understand what changes will be included
-2. Check if the current branch tracks a remote branch and push if needed
-3. Analyze all commits that will be included in the MR (from when the branch diverged from the base branch)
-4. Extract ticket number from branch name if present (e.g., `XXX-123` from branch names like `fix/XXX-123-description` or `feature/XXX-123-feature-name`)
-5. Create a comprehensive MR summary based on all the commits
-6. Use `glab mr create --delete-source-branch` to create the merge request and automatically delete the source branch after merging
+1. **Ensure build is passing**: Run the project's build command (e.g. `yarn build` or `npm run build`). **If it fails, stop** — do not proceed or try to fix.
+2. **Ensure lint is fixed**: Run the project's lint command (e.g. `yarn lint` or `yarn lint:fix`). If there are errors, fix them (use the fix variant if available, e.g. `yarn lint:fix`) and re-run until it passes.
+3. **Ensure code is properly formatted**: Run the project's format command (e.g. `yarn format` or `yarn format:check` then fix, or `prettier --write`). Fix any formatting issues and re-run until the format check passes.
+4. Check the current git status and branch to understand what changes will be included
+5. Check if the current branch tracks a remote branch and push if needed
+6. Analyze all commits that will be included in the MR (from when the branch diverged from the base branch)
+7. Extract ticket number from branch name if present (e.g., `XXX-123` from branch names like `fix/XXX-123-description` or `feature/XXX-123-feature-name`)
+8. Create a comprehensive MR summary based on all the commits
+9. Use `glab mr create --remove-source-branch` to create the merge request and automatically delete the source branch after merging
 
 The MR description should follow this format:
 
