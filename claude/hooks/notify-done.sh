@@ -44,4 +44,5 @@ fi
     [ -n "$TMUX_TARGET" ] && "$TMUX_BIN" switch-client -t "$TMUX_TARGET"
     open -a Ghostty
   fi
-) &
+) </dev/null >/dev/null 2>&1 &
+disown
