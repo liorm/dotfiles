@@ -6,15 +6,15 @@ Create a merge request for the current branch using the GitLab CLI. Follow these
 4. Check the current git status and branch to understand what changes will be included
 5. Check if the current branch tracks a remote branch and push if needed
 6. Analyze all commits that will be included in the MR (from when the branch diverged from the base branch)
-7. Extract ticket number from branch name if present (e.g., `XXX-123` from branch names like `fix/XXX-123-description` or `feature/XXX-123-feature-name`)
+7. Extract ticket number from branch name if present (e.g., `XXX-123` from branch names like `fix/XXX-123-description` or `feature/XXX-123-feature-name`). Tickets USUALLY start with `NFR-`. If you can't detect a ticket, use `NFR-000`. 
 8. Create a comprehensive MR summary based on all the commits
 9. Use `glab mr create --remove-source-branch` to create the merge request and automatically delete the source branch after merging
 
 The MR description should follow this format:
 
 ## Title
-- Include ticket number if detected from branch name (e.g., `fix(XXX-123): Description`)
-- Follow conventional commit format when possible (feat:, fix:, docs:, etc.)
+- Include ticket number (e.g., `fix(XXX-123): Description`)
+- Follow conventional commit format. Use only `feat:` or `fix:`.
 
 ## Overview
 Short overview of the change performed.
