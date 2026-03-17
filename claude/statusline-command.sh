@@ -1,25 +1,31 @@
-#!/usr/bin/env bash
-# Claude Code status line: git branch + dirty indicator
-
+#!/bin/bash
 input=$(cat)
-cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // empty')
 
-if [ -z "$cwd" ]; then
-  exit 0
-fi
+MODEL=$(echo "$input" | jq -r '.model.display_name')
+DIR=$(echo "$input" | jq -r '.workspace.current_dir')
+COST=$(echo "$input" | jq -r '.cost.total_cost_usd // 0')
+PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
+DURATION_MS=$(echo "$input" | jq -r '.cost.total_duration_ms // 0')
 
-# Resolve git branch and dirty state from the cwd
-branch=$(git -C "$cwd" --no-optional-locks rev-parse --abbrev-ref HEAD 2>/dev/null)
+CYAN='\033[36m'; GREEN='\033[32m'; YELLOW='\033[33m'; RED='\033[31m'; RESET='\033[0m'
 
-if [ -z "$branch" ]; then
-  exit 0
-fi
+# Pick bar color based on context usage
+if [ "$PCT" -ge 90 ]; then BAR_COLOR="$RED"
+elif [ "$PCT" -ge 70 ]; then BAR_COLOR="$YELLOW"
+else BAR_COLOR="$GREEN"; fi
+
+FILLED=$((PCT / 10)); EMPTY=$((10 - FILLED))
+printf -v FILL "%${FILLED}s"; printf -v PAD "%${EMPTY}s"
+BAR="${FILL// /█}${PAD// /░}"
+
+MINS=$((DURATION_MS / 60000)); SECS=$(((DURATION_MS % 60000) / 1000))
+
+BRANCH=""
+git rev-parse --git-dir > /dev/null 2>&1 && BRANCH=" | 🌿 $(git branch --show-current 2>/dev/null)"
 
 # Check for uncommitted changes (staged + unstaged + untracked)
-dirty=$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)
+DIRTY=$(git --no-optional-locks status --porcelain 2>/dev/null)
 
-if [ -n "$dirty" ]; then
-  printf '\033[33m%s *\033[0m' "$branch"
-else
-  printf '\033[32m%s\033[0m' "$branch"
-fi
+echo -e "${CYAN}[$MODEL]${RESET} 📁 ${DIR##*/}$BRANCH${DIRTY:+ *}"
+COST_FMT=$(printf '$%.2f' "$COST")
+echo -e "${BAR_COLOR}${BAR}${RESET} ${PCT}% | ${YELLOW}${COST_FMT}${RESET} | ⏱️ ${MINS}m ${SECS}s"
