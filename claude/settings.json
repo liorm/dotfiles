@@ -16,9 +16,14 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
   "enabledPlugins": {
     "playwright-skill@playwright-skill": false,
-    "claude-md-management@claude-plugins-official": true
+    "claude-md-management@claude-plugins-official": true,
+    "env-operations@fireblocks-claude-code-plugins": true
   },
   "alwaysThinkingEnabled": true,
   "autoMemoryEnabled": false,

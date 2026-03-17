@@ -30,24 +30,26 @@ git rev-parse --abbrev-ref @{upstream} 2>/dev/null || echo "no-upstream"
 From the diff and commit messages, determine:
 1. **Summary**: A concise title describing the change (max 100 chars)
 2. **Description**: What the change does, why it's needed, and key implementation details
-3. **Issue Type**: Choose based on the nature of the change:
-   - `Task` - for general work items, improvements, or refactoring
-   - `Bug` - for fixes to existing functionality
-   - `Story` - for new features or user-facing functionality
 
 ### Step 4: Create the Jira ticket
 
-Use the Atlassian MCP to create the ticket with these parameters:
-- **Cloud ID**: `74c77072-b566-48d4-9510-0e16c54b26a5`
-- **Project Key**: `NFR`
-- **Issue Type**: (determined from Step 3)
-- **Summary**: (determined from Step 3)
-- **Description**: Include:
-  - Change overview
-  - Files modified (summarized)
-  - Branch name
-  - Key technical details from the diff
-- **Assignee Account ID**: `621f395fc88f1000682e60c2`
+Use the `acli` CLI to create the ticket:
+
+```bash
+acli jira workitem create \
+  --project "NFR" \
+  --type "Task" \
+  --summary "<summary>" \
+  --description "<description>" \
+  --assignee "@me"
+```
+
+Parameters:
+- **Project**: `NFR` (always)
+- **Type**: always `Task`
+- **Summary**: determined from Step 3 (max 100 chars)
+- **Description**: plain text including change overview, files modified, branch name, and key technical details
+- **Assignee**: `@me` (self-assign to the authenticated user)
 
 ### Step 5: Report the result
 

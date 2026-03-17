@@ -31,6 +31,13 @@ elif pgrep -x tmux > /dev/null; then
   done
 fi
 
+if [ -n "$MATRIX_SESSION_ID" ] && [ -n "$MATRIX_CORE_URL" ]; then
+  NOTIFY_PAYLOAD=$(jq -n --arg text "$MSG" '{"text": $text}')
+  curl -s -X POST "$MATRIX_CORE_URL/api/terminal/$MATRIX_SESSION_ID/notify" \
+    -H "Content-Type: application/json" \
+    -d "$NOTIFY_PAYLOAD" &
+fi
+
 (
   RESULT=$(alerter \
     --title "CC - $DIR" \
