@@ -33,7 +33,21 @@ From the diff and commit messages, determine:
 
 ### Step 4: Create the Jira ticket
 
-Use the `acli` CLI to create the ticket:
+Use the `acli` CLI to create the ticket.
+
+**If a parent ticket is specified in the arguments** (e.g. `parent: NFR-1234`), include `--parent` in the create command — this is the ONLY way to set the parent, as `acli jira workitem edit` does not support it:
+
+```bash
+acli jira workitem create \
+  --project "NFR" \
+  --type "Task" \
+  --parent "<parent-key>" \
+  --summary "<summary>" \
+  --description "<description>" \
+  --assignee "@me"
+```
+
+**Without a parent:**
 
 ```bash
 acli jira workitem create \
@@ -47,6 +61,7 @@ acli jira workitem create \
 Parameters:
 - **Project**: `NFR` (always)
 - **Type**: always `Task`
+- **Parent**: set via `--parent` at create time if provided — cannot be changed after creation via acli
 - **Summary**: determined from Step 3 (max 100 chars)
 - **Description**: plain text including change overview, files modified, branch name, and key technical details
 - **Assignee**: `@me` (self-assign to the authenticated user)
@@ -73,3 +88,6 @@ $ARGUMENTS
 - If there are no git changes to analyze, ask the user to describe the task manually
 - Keep the summary concise and actionable
 - Include the branch name in the description for traceability
+- **`acli jira workitem edit` does not support `--parent`** — parent must be set at creation time via `--parent`
+- **Do not attempt to delete tickets** — permissions do not allow it; create correctly the first time
+- **Tickets cannot be cancelled via acli** — transitioning from Backlog requires an Epic Link (custom field), which acli edit does not support. Orphaned tickets can only be linked as duplicates (`acli jira workitem link create --out <new> --in <orphan> --type "Duplicate" --yes`), but not closed programmatically

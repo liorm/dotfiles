@@ -1,6 +1,8 @@
 {
   "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-6[1m]",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-6[1m]"
   },
   "includeCoAuthoredBy": false,
   "model": "opusplan",
@@ -23,7 +25,8 @@
   "enabledPlugins": {
     "playwright-skill@playwright-skill": false,
     "claude-md-management@claude-plugins-official": true,
-    "env-operations@fireblocks-claude-code-plugins": true
+    "env-operations@fireblocks-claude-code-plugins": true,
+    "remoteblocks-operations@fireblocks-claude-code-plugins": true
   },
   "alwaysThinkingEnabled": true,
   "autoMemoryEnabled": false,
