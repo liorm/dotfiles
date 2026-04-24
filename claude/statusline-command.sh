@@ -6,6 +6,9 @@ DIR=$(echo "$input" | jq -r '.workspace.current_dir')
 COST=$(echo "$input" | jq -r '.cost.total_cost_usd // 0')
 PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
 DURATION_MS=$(echo "$input" | jq -r '.cost.total_duration_ms // 0')
+SESSION_SHORT=$(echo "$input" | jq -r '.session_id // ""' | cut -c1-8)
+CTX_USED=$(echo "$input" | jq -r '((.context_window.used_percentage // 0) * (.context_window.context_window_size // 0) / 100) | round')
+CTX_TOTAL=$(echo "$input" | jq -r '.context_window.context_window_size // 0')
 
 CYAN='\033[36m'; GREEN='\033[32m'; YELLOW='\033[33m'; RED='\033[31m'; RESET='\033[0m'
 
@@ -26,6 +29,9 @@ git rev-parse --git-dir > /dev/null 2>&1 && BRANCH=" | 🌿 $(git branch --show-
 # Check for uncommitted changes (staged + unstaged + untracked)
 DIRTY=$(git --no-optional-locks status --porcelain 2>/dev/null)
 
-echo -e "${CYAN}[$MODEL]${RESET} 📁 ${DIR##*/}$BRANCH${DIRTY:+ *}"
+SESSION_DISPLAY="${SESSION_SHORT:+ | 🔑 ${SESSION_SHORT}}"
+echo -e "${CYAN}[$MODEL]${RESET} 📁 ${DIR##*/}$BRANCH${DIRTY:+ *}${SESSION_DISPLAY}"
+tok_k() { echo "$((($1 + 500) / 1000))k"; }
+CTX_DISPLAY="$(tok_k "$CTX_USED")/$(tok_k "$CTX_TOTAL")"
 COST_FMT=$(printf '$%.2f' "$COST")
-echo -e "${BAR_COLOR}${BAR}${RESET} ${PCT}% | ${YELLOW}${COST_FMT}${RESET} | ⏱️ ${MINS}m ${SECS}s"
+echo -e "${BAR_COLOR}${BAR}${RESET} ${PCT}% (${CTX_DISPLAY}) | ${YELLOW}${COST_FMT}${RESET} | ⏱️ ${MINS}m ${SECS}s"

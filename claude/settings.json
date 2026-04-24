@@ -1,10 +1,14 @@
 {
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_NO_FLICKER": "1",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-6[1m]",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-6[1m]"
   },
   "includeCoAuthoredBy": false,
+  "permissions": {
+    "defaultMode": "auto"
+  },
   "model": "opusplan",
   "hooks": {
     "Stop": [
@@ -26,9 +30,15 @@
     "playwright-skill@playwright-skill": false,
     "claude-md-management@claude-plugins-official": true,
     "env-operations@fireblocks-claude-code-plugins": true,
-    "remoteblocks-operations@fireblocks-claude-code-plugins": true
+    "remoteblocks-operations@fireblocks-claude-code-plugins": true,
+    "typescript-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
+  "effortLevel": "medium",
   "autoMemoryEnabled": false,
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
+  "verbose": true,
+  "preferredNotifChannel": "ghostty",
+  "fileCheckpointingEnabled": false
 }

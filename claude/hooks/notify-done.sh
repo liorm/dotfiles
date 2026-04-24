@@ -12,6 +12,9 @@ CWD=$(echo "$INPUT" | jq -r '.cwd')
 DIR=$(basename "$CWD")
 MSG=$(echo "$INPUT" | jq -r '.last_assistant_message // "Task complete"' | cut -c1-100)
 
+EVENT_TYPE=$(echo "$INPUT" | jq -r '.hook_event_name // "unknown"')
+TOOL=$(echo "$INPUT" | jq -r '.tool_name // ""')
+
 # Find our tmux target
 TMUX_BIN=$(which tmux)
 TMUX_TARGET=""
