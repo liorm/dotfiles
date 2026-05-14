@@ -37,8 +37,9 @@
   "effortLevel": "medium",
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true,
+  "theme": "dark",
   "verbose": true,
   "preferredNotifChannel": "ghostty",
-  "fileCheckpointingEnabled": false
+  "fileCheckpointingEnabled": false,
+  "skipAutoPermissionPrompt": true
 }
