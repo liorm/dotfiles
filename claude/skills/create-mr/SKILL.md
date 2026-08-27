@@ -15,16 +15,11 @@ Create a merge request for the current branch using the GitLab CLI (`glab`).
 6. Check if the current branch tracks a remote branch and push if needed (`git push -u origin <branch>`).
 7. Analyze all commits that will be included in the MR (from when the branch diverged from the base branch).
 8. **Ensure a Jira ticket exists** — extract the ticket number from the branch name if present (e.g., `XXX-123` from branch names like `fix/XXX-123-description` or `feature/XXX-123-feature-name`). Tickets USUALLY start with `NFR-`.
-   - If no ticket is found in the branch name, do **not** fall back to a placeholder like `NFR-000` — it is not a valid ticket. Instead, create a new Jira ticket via `acli` under the `NFR-1800` epic, following the same steps as the `create-jira` skill/command: analyze the branch's diff and commits, then run:
-     ```bash
-     acli jira workitem create \
-       --project "NFR" \
-       --type "Task" \
-       --parent "NFR-1800" \
-       --summary "<summary>" \
-       --description "<description>" \
-       --assignee "@me"
-     ```
+   - If no ticket is found in the branch name, do **not** fall back to a placeholder like `NFR-000` — it is not a valid ticket. Determine the parent epic from the work's actual domain:
+     - Any Remoteblocks work uses `NFR-1861` (`RB Env Management`). This takes precedence even when the service consumes FireService.
+     - Work that changes FireService/framework itself uses `NFR-1800` (`NJ - FireService Phase 1`). Do not select it merely because an application is built with FireService.
+     - For other domains, inspect the parents of recent related Jira-backed commits with `acli jira workitem view`. If there is no clear precedent, ask the user for the parent rather than guessing.
+   - Create the ticket through the `create-jira` workflow: use `acli`, a validated ADF description file, the resolved parent at creation time, and assignment to `lmualem@fireblocks.com`.
    - Use the newly created ticket key (e.g. `NFR-1801`) as the ticket number for the MR title/description going forward.
 9. Create an MR summary based on all the commits.
 10. Use `glab mr create --remove-source-branch` with `--title` and `--description` flags (refer to the help output from step 1 for exact flags and syntax).
