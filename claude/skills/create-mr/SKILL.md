@@ -21,9 +21,11 @@ Create a merge request for the current branch using the GitLab CLI (`glab`).
      - For other domains, inspect the parents of recent related Jira-backed commits with `acli jira workitem view`. If there is no clear precedent, ask the user for the parent rather than guessing.
    - Create the ticket through the `create-jira` workflow: use `acli`, a validated ADF description file, the resolved parent at creation time, and assignment to `lmualem@fireblocks.com`.
    - Use the newly created ticket key (e.g. `NFR-1801`) as the ticket number for the MR title/description going forward.
+   - After resolving the ticket key—whether extracted from the branch name or newly created—use `acli` to transition the Jira ticket to **In Progress** before continuing.
 9. Create an MR summary based on all the commits.
 10. Use `glab mr create --remove-source-branch` with `--title` and `--description` flags (refer to the help output from step 1 for exact flags and syntax).
-11. **If this MR is part of an active feature/fix implementation you're driving** (i.e. you're still working the task, not just firing off the MR ad hoc), monitor it after creation until it's in a stable state. Skip this step if the user explicitly asked to just create the MR without waiting around:
+11. After the MR is successfully created, use `acli` to transition the Jira ticket from **In Progress** to **Code Review**, if that transition is available. If it is unavailable, report that briefly and continue; do not treat it as an MR creation failure.
+12. **If this MR is part of an active feature/fix implementation you're driving** (i.e. you're still working the task, not just firing off the MR ad hoc), monitor it after creation until it's in a stable state. Skip this step if the user explicitly asked to just create the MR without waiting around:
     - **Pipeline**: run `glab ci status --live` (or poll `glab ci status`) until the pipeline finishes. If it goes red, inspect the failing job (`glab ci trace <job-id|job-name>`), fix the root cause, push, and monitor the new pipeline. Repeat until green.
     - **Comments**: while monitoring, periodically check for new discussions with `glab mr note list --state unresolved`. For each unresolved comment, address it in code if it requires a change, then reply **directly on that discussion thread** with `glab mr note create --reply <discussion-id> -m "<reply>"` — never post a generic top-level MR comment as a substitute for a reply.
     - Stop monitoring once the pipeline is green and all comments seen so far have been replied to.

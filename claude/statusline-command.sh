@@ -2,6 +2,7 @@
 input=$(cat)
 
 MODEL=$(echo "$input" | jq -r '.model.display_name')
+EFFORT=$(echo "$input" | jq -r '.effort.level // empty')
 DIR=$(echo "$input" | jq -r '.workspace.current_dir')
 COST=$(echo "$input" | jq -r '.cost.total_cost_usd // 0')
 PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
@@ -30,7 +31,7 @@ git rev-parse --git-dir > /dev/null 2>&1 && BRANCH=" | 🌿 $(git branch --show-
 DIRTY=$(git --no-optional-locks status --porcelain 2>/dev/null)
 
 SESSION_DISPLAY="${SESSION_SHORT:+ | 🔑 ${SESSION_SHORT}}"
-echo -e "${CYAN}[$MODEL]${RESET} 📁 ${DIR##*/}$BRANCH${DIRTY:+ *}${SESSION_DISPLAY}"
+echo -e "${CYAN}[$MODEL${EFFORT:+ (${EFFORT})}]${RESET} 📁 ${DIR##*/}$BRANCH${DIRTY:+ *}${SESSION_DISPLAY}"
 tok_k() { echo "$((($1 + 500) / 1000))k"; }
 CTX_DISPLAY="$(tok_k "$CTX_USED")/$(tok_k "$CTX_TOTAL")"
 COST_FMT=$(printf '$%.2f' "$COST")
