@@ -36,3 +36,5 @@ tok_k() { echo "$((($1 + 500) / 1000))k"; }
 CTX_DISPLAY="$(tok_k "$CTX_USED")/$(tok_k "$CTX_TOTAL")"
 COST_FMT=$(printf '$%.2f' "$COST")
 echo -e "${BAR_COLOR}${BAR}${RESET} ${PCT}% (${CTX_DISPLAY}) | ${YELLOW}${COST_FMT}${RESET} | ⏱️ ${MINS}m ${SECS}s"
+
+
