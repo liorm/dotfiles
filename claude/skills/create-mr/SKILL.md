@@ -43,6 +43,20 @@ Short overview of the change performed.
 **Only add this section if PUBLIC apis were changed**
 Show "diff" - previous API and new API usage and examples
 
+## Summary
+A visual that makes the change understandable at a glance. Pick the **smallest** view that makes the point, place it right next to the one-line text it supports, and include only the elements that answer "what changed and how does it fit together". Skip preambles; use the project's own terminology.
+
+Choose the view by change type:
+- **Pseudocode** — logic or algorithm changes
+- **Call tree** — runtime flow
+- **Component tree** — UI structure, including state and module boundaries
+- **Shallow file tree** — refactors or changed file responsibilities
+- **Mermaid diagram** (e.g. `sequenceDiagram`, `flowchart`) — interactions and data flow; GitLab renders it in a ```` ```mermaid ```` block
+- **`diff` block** — the structure already exists and only the changes matter (component, file-layout, call-tree or control-flow diff)
+- **Full code block** — most of it is new, or a copyable target shape is needed
+
+Prefer a diagram (Mermaid or tree) over prose whenever more than one component is involved. Don't overwhelm the reader — trim anything that doesn't serve the point.
+
 ## Key Changes
 - List of key changes (1-3 bullet points)
 - Focus on the most important changes
@@ -50,7 +64,7 @@ Show "diff" - previous API and new API usage and examples
 - When package versions change, include their difference in the analysis
 - Any relevant context or breaking changes
 
-Keep it simple. A title, an overview and a short list of KEY changes. Don't add anything else.
+Keep it simple. A title, an overview, a summary visual and a short list of KEY changes. Don't add anything else.
 
 **NEVER** include "🤖 Generated with Claude Code", "Co-Authored-By: Claude" or similar AI attribution lines.
 **NEVER** use the word "Comprehensive" — be realistic and to the point.
