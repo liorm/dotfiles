@@ -14,6 +14,11 @@ Use the GitHub CLI (`gh`) to create a pull request for the current branch.
 5. Create a concise conventional title when practical and a description containing:
    - a `Summary` section with one to three bullets;
    - relevant context or breaking changes, only when applicable.
-6. Run `gh pr create` with the selected base, title, and description, then report the PR URL.
+6. Run `gh pr create` with the selected base, title, and description.
+7. **Always wait for the PR to be mergeable and for all checks to succeed**:
+   - Check mergeability with `gh pr view --json mergeable,mergeStateStatus` (retrying briefly if `UNKNOWN` while GitHub computes it). If there are merge conflicts (`CONFLICTING` / `DIRTY`), sync with the base branch, resolve the conflicts, and push.
+   - Wait for all PR checks to finish using `gh pr checks --watch`.
+   - If any check fails, inspect the failure (e.g. `gh run view <run-id> --log-failed`), fix the issue locally, commit, push, and repeat step 7 until all checks pass and `mergeable` is `MERGEABLE`.
+8. Report the PR URL along with the final mergeability and check status.
 
 Never add AI attribution such as `Generated with Claude Code` or `Co-Authored-By: Claude` to commits or PR text.
